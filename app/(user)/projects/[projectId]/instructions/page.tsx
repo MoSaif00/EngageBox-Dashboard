@@ -2,7 +2,14 @@ import CopyBtn from "@/components/copyBtn";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
-const Page = ({ params }: { params: { projectId: string; }; }) => {
+type Props = {
+    params: {
+        projectId: string;
+    };
+    searchParams: Record<string, string | string[] | undefined>;
+};
+
+const Page = ({ params }: Props) => {
     const { projectId } = params;
 
     if (!projectId) {

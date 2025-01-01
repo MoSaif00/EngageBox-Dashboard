@@ -1,13 +1,14 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import { MonthlyPlan, YearlyPlan } from "@/lib/constants";
 import SubscribeBtn from "../subscribeBtn";
 
-const Page = () => {
-    const searchParams = useSearchParams();
+type PageProps = {
+    searchParams: {
+        plan?: string;
+    };
+};
 
-    const plan = searchParams?.get("plan");
+const Page = ({ searchParams }: PageProps) => {
+    const { plan } = searchParams;
 
     const planId = plan === "monthly" ? MonthlyPlan : YearlyPlan;
 
