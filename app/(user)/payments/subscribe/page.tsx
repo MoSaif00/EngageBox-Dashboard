@@ -1,15 +1,13 @@
 import { MonthlyPlan, YearlyPlan } from "@/lib/constants";
 import SubscribeBtn from "../subscribeBtn";
 
-type PageProps = {
-    searchParams: {
-        plan?: string;
-    };
+type Props = {
+    params: object;
+    searchParams: { [key: string]: string | string[] | undefined; };
 };
 
-const Page = ({ searchParams }: PageProps) => {
-    const { plan } = searchParams;
-
+const Page = ({ searchParams }: Props) => {
+    const plan = searchParams.plan as string | undefined;
     const planId = plan === "monthly" ? MonthlyPlan : YearlyPlan;
 
     return (
