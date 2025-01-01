@@ -2,9 +2,9 @@
 
 A powerful dashboard application for managing user feedback collection projects. Built with Next.js and modern web technologies.
 
-## ✨ <a href="https://github.com/MoSaif00/EngageBox-Widget.git" target="_blank">Related Widget</a>
+## ✨ [Related Widget](https://github.com/MoSaif00/EngageBox-Widget.git)
 
-## ✨ <a href="https://engage-box.vercel.app/" target="_blank">App Dem</a>
+## ✨ [App Demo](https://engage-box.vercel.app/)
 
 ![Home Page](./public/home.png)
 
