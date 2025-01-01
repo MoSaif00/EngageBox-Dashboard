@@ -1,11 +1,14 @@
 import { MonthlyPlan, YearlyPlan } from "@/lib/constants";
 import SubscribeBtn from "../subscribeBtn";
 
-interface PageProps {
-    searchParams: { [key: string]: string | string[] | undefined; };
-}
+export const runtime = 'edge'; // Optional: Add if you want edge runtime
+export const dynamic = 'force-dynamic'; // Optional: Add if you need dynamic data
 
-const Page = async ({ searchParams }: PageProps) => {
+const Page = async ({
+    searchParams,
+}: {
+    searchParams: { [key: string]: string | string[] | undefined; };
+}) => {
     const plan = searchParams.plan as string | undefined;
     const planId = plan === "monthly" ? MonthlyPlan : YearlyPlan;
 
