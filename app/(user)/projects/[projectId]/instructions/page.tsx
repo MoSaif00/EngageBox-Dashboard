@@ -2,14 +2,7 @@ import CopyBtn from "@/components/copyBtn";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
-// The PageProps type must match the expected format from Next.js
-type PageProps = {
-    params: {
-        projectId: string;
-    };
-};
-
-const Page = ({ params }: PageProps) => {
+const Page = ({ params }: { params: { projectId: string; }; }) => {
     const { projectId } = params;
 
     if (!projectId) {
