@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EngageBox Dashboard
 
-## Getting Started
+A powerful dashboard application for managing user feedback collection projects. Built with Next.js and modern web technologies.
 
-First, run the development server:
+## ✨ [Related Widget](https://github.com/MoSaif00/EngageBox-Widget.git)
+
+## ✨ [App Demo](https://engage-box.vercel.app/)
+
+![Home Page](./public/home.png)
+
+![Dashboard](./public/dashboard.png)
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- Node.js (v16 or higher)
+- npm or yarn package manager
+- Clerk account
+- Stripe account
+- Supabase project
+
+## Environment Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/MoSaif00/EngageBox-Dashboard.git
+cd engagebox-dashboard
+```
+
+2. Create a `.env` file in the root directory with the following variables:
+
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<Public API key for Clerk>
+CLERK_SECRET_KEY=<Secret API key for Clerk>
+DATABASE_URL=<Connection string for the database>
+WIDGET_URL=<Domain where the widget is deployed>
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=<Public API key for Stripe>
+STRIPE_SECRET_KEY=<Secret API key for Stripe>
+STRIPE_WEBHOOK_SECRET=<Secret key for Stripe webhook verification>
+STRIPE_WEBHOOK_LOCAL_SECRET=<Secret key for local Stripe webhook verification>
+NEXT_PUBLIC_BASE_URL=<Website Domain here>
+```
+
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Set up the database:
+
+```bash
+npm run db:generate  # Generate database client
+npm run db:migrate  # Run migrations
+npm run db:push     # Push schema changes
+```
+
+5. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Database Management
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The application uses DrizzleORM with PostgreSQL. Key commands:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run db:generate`: Generate database client
+- `npm run db:migrate`: Run database migrations
+- `npm run db:push`: Push schema changes to database
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: Next.js, React, TailwindCSS, shadcn/ui
+- **Authentication**: Clerk
+- **Database**: PostgreSQL with DrizzleORM
+- **Payments**: Stripe
+- **Backend Services**: Supabase
+- **Styling**: TailwindCSS
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The application can be deployed to any platform that supports Next.js applications (Vercel, Netlify, etc.).
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Configure environment variables on your hosting platform
+2. Connect your repository
+3. Deploy the application
