@@ -2,17 +2,23 @@ import CopyBtn from "@/components/copyBtn";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
-const page = ({ params }: {
+// The PageProps type must match the expected format from Next.js
+type PageProps = {
     params: {
         projectId: string;
     };
-}) => {
+};
+
+const Page = ({ params }: PageProps) => {
     const { projectId } = params;
 
     if (!projectId) {
-        return (<div>Invalid Project ID</div>);
+        return <div>Invalid Project ID</div>;
     }
-    if (!process.env.WIDGET_URL) return (<div>Missing Widget URL</div>);
+
+    if (!process.env.WIDGET_URL) {
+        return <div>Missing Widget URL</div>;
+    }
 
     return (
         <div>
@@ -33,8 +39,8 @@ const page = ({ params }: {
                 </code>
                 <CopyBtn text={`<my-widget project-id="${projectId}"></my-widget>\n<script src="${process.env.WIDGET_URL}/widget.umd.js"></script>`} />
             </div>
-        </div >
+        </div>
     );
 };
 
-export default page;
+export default Page;
