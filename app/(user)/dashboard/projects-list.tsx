@@ -41,7 +41,7 @@ const ProjectsList = (props: Props) => {
                         </Card>
                     </li>
                 ))}
-                {props.subscribed !== true && props.projects?.length > maxFreeProjects ?
+                {props.subscribed !== true && props.projects?.length >= maxFreeProjects ?
                     <Card className="max-w-[350px] flex flex-col h-full bg-muted">
                         <CardHeader className="flex-1">
                             <CardTitle className="flex flex-row text-sm md:text-lg items-center">
