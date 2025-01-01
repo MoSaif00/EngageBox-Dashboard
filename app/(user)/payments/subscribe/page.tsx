@@ -1,13 +1,7 @@
 import { MonthlyPlan, YearlyPlan } from "@/lib/constants";
 import SubscribeBtn from "../subscribeBtn";
 
-interface PageProps {
-    searchParams: {
-        plan: string;
-    };
-}
-
-const Page = ({ searchParams }: PageProps) => {
+const Page = ({ searchParams }: { searchParams: { plan: string; }; }) => {
     const { plan } = searchParams;
 
     const planId = plan === "monthly" ? MonthlyPlan : YearlyPlan;
