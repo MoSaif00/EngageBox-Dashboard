@@ -5,8 +5,8 @@ import { getStripe } from "@/lib/stripe-client";
 import { Loader2 } from "lucide-react";
 
 type Props = {
-    price: string;
-    subscribed: boolean | null | undefined;
+    price?: string;
+    subscribed?: boolean | null;
 };
 
 const SubscribeBtn = ({ price, subscribed }: Props) => {
@@ -42,7 +42,7 @@ const SubscribeBtn = ({ price, subscribed }: Props) => {
     }
 
     return (
-        <Button onClick={() => handleCheckout(price)} className={subscribed ? "bg-muted-foreground" : "bg-primary"} disabled={loading}>{loading ? <>
+        <Button onClick={() => price && handleCheckout(price)} className={subscribed ? "bg-muted-foreground" : "bg-primary"} disabled={loading}>{loading ? <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />Please Wait</> : "Subscribe"}</Button>
     );
 };
