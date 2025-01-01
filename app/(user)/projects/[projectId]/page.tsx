@@ -5,13 +5,10 @@ import Link from "next/link";
 import { ChevronLeft, Code, Globe } from "lucide-react";
 import Table from "@/components/table";
 
-interface Props {
-    params: { projectId: string; };
-    searchParams: { [key: string]: string | string[] | undefined; };
-}
+type Params = Promise<{ projectId: string; }>;
 
-const Page = async ({ params }: Props) => {
-    const { projectId } = params;
+const Page = async ({ params }: { params: Params; }) => {
+    const { projectId } = await params;
 
     if (!projectId) {
         return <div>Invalid Project ID</div>;

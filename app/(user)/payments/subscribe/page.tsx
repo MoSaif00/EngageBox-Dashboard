@@ -1,14 +1,18 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import { MonthlyPlan, YearlyPlan } from "@/lib/constants";
 import SubscribeBtn from "../subscribeBtn";
 
-const Page = () => {
-    const searchParams = useSearchParams();
+export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
-    const plan = searchParams?.get("plan");
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined; }>;
 
+const Page = async ({
+    searchParams,
+}: {
+    searchParams: SearchParams;
+}) => {
+    const params = await searchParams;
+    const plan = params.plan as string | undefined;
     const planId = plan === "monthly" ? MonthlyPlan : YearlyPlan;
 
     return (

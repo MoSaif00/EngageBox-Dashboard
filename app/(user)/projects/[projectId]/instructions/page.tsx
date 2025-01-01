@@ -1,30 +1,23 @@
-"use client";
-
-import { useSearchParams } from "next/navigation";
 import CopyBtn from "@/components/copyBtn";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
-const Page = () => {
-    const searchParams = useSearchParams();
-    const projectId = searchParams.get("projectId");
+type Params = Promise<{ projectId: string; }>;
 
-    const widgetUrl = process.env.NEXT_PUBLIC_WIDGET_URL;
+const Page = async ({ params }: { params: Params; }) => {
+    const { projectId } = await params;
 
     if (!projectId) {
-        return <div className="text-red-500">Invalid Project ID</div>;
+        return (<div>Invalid Project ID</div>);
     }
-
-    if (!widgetUrl) {
-        return <div className="text-red-500">Missing Widget URL</div>;
-    }
+    if (!process.env.WIDGET_URL) return (<div>Missing Widget URL</div>);
 
     return (
         <div>
             <div>
-                <Link href="/" className="flex items-center text-primary mb-5 w-fit">
+                <Link href={`/projects/${projectId}`} className="flex items-center text-primary mb-5 w-fit">
                     <ChevronLeft className="h-5 w-5 mr-1" />
-                    <span className="text-lg">Back to projects</span>
+                    <span className="text-lg">Back to project</span>
                 </Link>
             </div>
             <h1 className="text-xl font-bold mb-2">Start Collecting Feedback</h1>
@@ -34,11 +27,9 @@ const Page = () => {
                 <code className="text-white">
                     {`<my-widget project-id="${projectId}"></my-widget>`}
                     <br />
-                    {`<script src="${widgetUrl}/widget.umd.js"></script>`}
+                    {`<script src="${process.env.WIDGET_URL}/widget.umd.js"></script>`}
                 </code>
-                <CopyBtn
-                    text={`<my-widget project-id="${projectId}"></my-widget>\n<script src="${widgetUrl}/widget.umd.js"></script>`}
-                />
+                <CopyBtn text={`<my-widget project-id="${projectId}"></my-widget>\n<script src="${process.env.WIDGET_URL}/widget.umd.js"></script>`} />
             </div>
         </div>
     );
