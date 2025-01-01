@@ -20,7 +20,7 @@ const PageHeader = () => {
                     <div>
                         <SignedOut>
                             <SignInButton >
-                                <Button className='bg-muted-foreground'>Sign In</Button>
+                                <Button variant={'secondary'}>Sign In</Button>
                             </SignInButton>
                             <SignUpButton >
                                 <Button className='ml-2 '>Sign Up</Button>

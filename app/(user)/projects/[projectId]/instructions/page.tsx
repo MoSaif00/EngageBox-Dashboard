@@ -2,18 +2,22 @@ import CopyBtn from "@/components/copyBtn";
 import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
-const page = ({ params }: {
+const page = async ({ params }: {
     params: {
         projectId: string;
     };
 }) => {
-    if (!params.projectId) return (<div>Invalid Project ID</div>);
+    const { projectId } = await params;
+
+    if (!projectId) {
+        return (<div>Invalid Project ID</div>);
+    }
     if (!process.env.WIDGET_URL) return (<div>Missing Widget URL</div>);
 
     return (
         <div>
             <div>
-                <Link href={`/projects/${params.projectId}`} className="flex items-center text-indigo-700 mb-5 w-fit">
+                <Link href={`/projects/${projectId}`} className="flex items-center text-primary mb-5 w-fit">
                     <ChevronLeft className="h-5 w-5 mr-1" />
                     <span className="text-lg">Back to project</span>
                 </Link>
@@ -23,11 +27,11 @@ const page = ({ params }: {
 
             <div className="bg-muted-foreground p-6 rounded-md mt-6 relative">
                 <code className="text-white">
-                    {`<my-widget project-id="${params.projectId}"></my-widget>`}
+                    {`<my-widget project-id="${projectId}"></my-widget>`}
                     <br />
                     {`<script src="${process.env.WIDGET_URL}/widget.umd.js"></script>`}
                 </code>
-                <CopyBtn text={`<my-widget project-id="${params.projectId}"></my-widget>\n<script src="${process.env.WIDGET_URL}/widget.umd.js"></script>`} />
+                <CopyBtn text={`<my-widget project-id="${projectId}"></my-widget>\n<script src="${process.env.WIDGET_URL}/widget.umd.js"></script>`} />
             </div>
         </div >
     );
