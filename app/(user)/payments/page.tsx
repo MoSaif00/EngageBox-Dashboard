@@ -1,24 +1,31 @@
-"use client";
+import { auth } from "@clerk/nextjs/server";
+import { db } from "@/db";
+import { subscriptions } from "@/db/schema";
+import { eq } from "drizzle-orm";
+import ManageSubscription from "./manageSubscription";
 
-import { useSearchParams } from "next/navigation";
-import { MonthlyPlan, YearlyPlan } from "@/lib/constants";
-import SubscribeBtn from "./subscribeBtn";
+const page = async () => {
+    const { userId } = await auth();
 
-const Page = () => {
-    const searchParams = useSearchParams();
+    if (!userId) {
+        return null;
+    }
 
-    const plan = searchParams?.get("plan");
+    const subscription = await db.query.subscriptions.findFirst({
+        where: eq(subscriptions.userId, userId)
+    });
 
-    const planId = plan === "monthly" ? MonthlyPlan : YearlyPlan;
+    const plan = subscription && subscription.subscribed ? 'premium' : 'free';
 
     return (
-        <div className="flex border p-4 rounded-md flex-col">
-            <h1 className="text-2xl font-bold">Start your subscription now:</h1>
-            <div className="w-fit mt-3">
-                <SubscribeBtn price={planId} />
-            </div>
+        <div className="p-4 border rounded-md">
+            <h1 className="text-4xl mb-3">Subscription Details</h1>
+            <p className="mb-2 text-lg">
+                Your current plan is: {plan}
+            </p>
+            <ManageSubscription />
         </div>
     );
 };
 
-export default Page;
+export default page;
