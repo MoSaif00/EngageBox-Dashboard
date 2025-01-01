@@ -1,18 +1,14 @@
 import { MonthlyPlan, YearlyPlan } from "@/lib/constants";
 import SubscribeBtn from "../subscribeBtn";
 
-export const runtime = 'edge';
-export const dynamic = 'force-dynamic';
+type SearchParams = Promise<{
+    plan: string;
+}>;
 
-type SearchParams = Promise<{ [key: string]: string | string[] | undefined; }>;
-
-const Page = async ({
-    searchParams,
-}: {
-    searchParams: SearchParams;
-}) => {
+const Page = async ({ searchParams }: { searchParams: SearchParams; }) => {
     const params = await searchParams;
-    const plan = params.plan as string | undefined;
+    const { plan } = params;
+
     const planId = plan === "monthly" ? MonthlyPlan : YearlyPlan;
 
     return (
