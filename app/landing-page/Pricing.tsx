@@ -25,7 +25,7 @@ export const pricingPlans: PricingPlan[] = [
     },
     {
         title: "Monthly",
-        price: 6.99,
+        price: 4.95,
         description: "Ideal for growing teams and expanding feedback needs.",
         isPopular: true,
         url: "/payments/subscribe?plan=monthly",
@@ -38,7 +38,7 @@ export const pricingPlans: PricingPlan[] = [
     },
     {
         title: "Yearly",
-        price: 39.99,
+        price: 49.99,
         description: "Get the best value with an annual plan.",
         isPopular: false,
         url: "/payments/subscribe?plan=yearly",
