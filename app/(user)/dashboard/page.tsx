@@ -9,7 +9,6 @@ import { maxFreeProjects } from "@/lib/constants";
 
 export default async function Page() {
     const { userId } = await auth();
-    console.log("🚀 ~ Page ~ userId:", userId);
 
     if (!userId) {
         return null;
@@ -18,10 +17,6 @@ export default async function Page() {
     const userProjects = await db.select().from(projects).where(eq(projects.userId, userId));
 
     const subscribed = await getSubscription({ userId });
-    console.log("🚀 ~ Page ~ subscribed:", subscribed);
-    console.log("🚀 ~ Page ~ userProjects.length > maxFreeProjects:", userProjects.length > maxFreeProjects);
-
-    console.log("🚀 ~ Page ~ subscribed !== true:", subscribed !== true);
     return (
         <div>
             <div className="flex items-center justify-center relative my-8">
