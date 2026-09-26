@@ -2,7 +2,8 @@ import Link from 'next/link';
 import {
     SignInButton,
     SignUpButton,
-    SignedIn, SignedOut, UserButton
+    Show,
+    UserButton,
 } from '@clerk/nextjs';
 import { Button } from './ui/button';
 import HeaderMenu from './headerMenu';
@@ -18,7 +19,7 @@ const PageHeader = () => {
                         </h1>
                     </Link>
                     <div className="flex items-center shrink-0">
-                        <SignedOut>
+                        <Show when="signed-out">
                             <SignInButton>
                                 <Button variant={'secondary'} size="sm">
                                     Sign In
@@ -29,13 +30,13 @@ const PageHeader = () => {
                                     Sign Up
                                 </Button>
                             </SignUpButton>
-                        </SignedOut>
-                        <SignedIn>
+                        </Show>
+                        <Show when="signed-in">
                             <div className="flex items-center">
                                 <HeaderMenu />
                                 <UserButton />
                             </div>
-                        </SignedIn>
+                        </Show>
                     </div>
                 </div>
             </div>

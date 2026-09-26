@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignUpButton, Show } from "@clerk/nextjs";
 import Link from "next/link";
 import { LogIn } from "lucide-react";
 import Image from "next/image";
@@ -40,7 +40,7 @@ const Hero = () => {
                         </p>
                     </div>
                     <div className="flex justify-center md:justify-start">
-                        <SignedOut>
+                        <Show when="signed-out">
                             <SignUpButton>
                                 <div className="flex gap-3">
                                     <Button>
@@ -49,12 +49,12 @@ const Hero = () => {
                                     </Button>
                                 </div>
                             </SignUpButton>
-                        </SignedOut>
-                        <SignedIn>
+                        </Show>
+                        <Show when="signed-in">
                             <Button asChild>
                                 <Link href="/dashboard">Dashboard</Link>
                             </Button>
-                        </SignedIn>
+                        </Show>
                     </div>
                 </div>
                 <div className="flex-1 w-full max-w-lg">
