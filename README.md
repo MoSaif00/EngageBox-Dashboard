@@ -45,11 +45,18 @@ NEXT_PUBLIC_BASE_URL=<Dashboard URL, e.g. https://engage-box.vercel.app>
 
 ### Production checklist (Clerk + Vercel)
 
-1. Create a **Clerk Production** instance and copy `pk_live_` / `sk_live_` keys.
-2. In Vercel → Project → Settings → Environment Variables, set those keys for **Production** (not just Development). Redeploy after changing.
-3. In Clerk Dashboard → Domains, add your Vercel production domain.
-4. For `DATABASE_URL`, use Supabase **Transaction pooler** (`:6543`), not the direct `:5432` connection, on Vercel serverless.
-5. Vercel “Needs Attention” on secrets usually means re-paste the value for Production and redeploy.
+Because `*.vercel.app` cannot use Clerk DNS/CNAME, Clerk uses a **proxy** on your app:
+
+1. Clerk Dashboard → Domains should show proxy URL: `https://engage-box.vercel.app/__clerk`
+2. In Vercel Production env vars set:
+   - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` = `pk_live_...`
+   - `CLERK_SECRET_KEY` = `sk_live_...`
+   - `NEXT_PUBLIC_CLERK_PROXY_URL` = `https://engage-box.vercel.app/__clerk`
+3. Deploy this app (middleware proxies `/__clerk/*`)
+4. Back in Clerk Domains, click **Verify** / deploy-and-verify until the domain is verified
+5. Do **not** set `NEXT_PUBLIC_CLERK_PROXY_URL` for local `pk_test_` development
+
+For full branded Account Portal later, add a real custom domain you own (not `vercel.app`).
 
 3. Install dependencies:
 
