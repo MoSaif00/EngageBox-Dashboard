@@ -29,18 +29,17 @@ const Hero = () => {
 
     return (
         <section className="grow">
-            <div className="container mx-auto px-4 mb-24 mt-4 flex flex-col md:flex-row justify-center">
-                <div className="flex flex-col max-w-sm justify-center">
+            <div className="container mx-auto px-4 mb-16 sm:mb-24 mt-4 flex flex-col md:flex-row items-center justify-center gap-8 md:gap-12">
+                <div className="flex flex-col max-w-sm justify-center text-center md:text-left">
                     <div className="mb-8">
-                        <h1 className="mb-5 text-5xl font-extrabold leading-tight">
+                        <h1 className="mb-5 text-4xl sm:text-5xl font-extrabold leading-tight">
                             Gather Feedback Effortlessly
-
                         </h1>
-                        <p className="text-muted-foreground text-lg">
+                        <p className="text-muted-foreground text-base sm:text-lg">
                             Integrate EngageBox into your website with ease and start gaining valuable insights from your users in no time.
                         </p>
                     </div>
-                    <div>
+                    <div className="flex justify-center md:justify-start">
                         <SignedOut>
                             <SignUpButton>
                                 <div className="flex gap-3">
@@ -58,7 +57,7 @@ const Hero = () => {
                         </SignedIn>
                     </div>
                 </div>
-                <div className="flex-1 max-w-lg">
+                <div className="flex-1 w-full max-w-lg">
                     <Image
                         src={isDarkMode ? "/demoDark.gif" : "/demo.gif"}
                         alt="demo"

@@ -29,18 +29,18 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <ThemeProvider>
-        <html lang="en">
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-          >
+      <html lang="en" suppressHydrationWarning>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <ThemeProvider>
             <PageHeader />
             {children}
             <Toaster />
             <ThemeToggle />
-          </body>
-        </html>
-      </ThemeProvider>
+          </ThemeProvider>
+        </body>
+      </html>
     </ClerkProvider>
   );
 }

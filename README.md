@@ -29,19 +29,27 @@ git clone https://github.com/MoSaif00/EngageBox-Dashboard.git
 cd engagebox-dashboard
 ```
 
-2. Create a `.env` file in the root directory with the following variables:
+2. Create a `.env.local` file (see `.env.example`) with:
 
 ```env
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<Public API key for Clerk>
-CLERK_SECRET_KEY=<Secret API key for Clerk>
-DATABASE_URL=<Connection string for the database>
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_...   # pk_test_ only for local/dev
+CLERK_SECRET_KEY=sk_live_...
+DATABASE_URL=<Supabase Transaction pooler URI, port 6543>
 WIDGET_URL=<Domain where the widget is deployed>
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=<Public API key for Stripe>
-STRIPE_SECRET_KEY=<Secret API key for Stripe>
-STRIPE_WEBHOOK_SECRET=<Secret key for Stripe webhook verification>
-STRIPE_WEBHOOK_LOCAL_SECRET=<Secret key for local Stripe webhook verification>
-NEXT_PUBLIC_BASE_URL=<Website Domain here>
+NEXT_PUBLIC_PUBLISHABLE_KEY=<Stripe publishable key>
+STRIPE_SECRET_KEY=<Stripe secret key>
+STRIPE_WEBHOOK_SECRET=<Stripe webhook secret>
+STRIPE_WEBHOOK_LOCAL_SECRET=<Local Stripe webhook secret>
+NEXT_PUBLIC_BASE_URL=<Dashboard URL, e.g. https://engage-box.vercel.app>
 ```
+
+### Production checklist (Clerk + Vercel)
+
+1. Create a **Clerk Production** instance and copy `pk_live_` / `sk_live_` keys.
+2. In Vercel → Project → Settings → Environment Variables, set those keys for **Production** (not just Development). Redeploy after changing.
+3. In Clerk Dashboard → Domains, add your Vercel production domain.
+4. For `DATABASE_URL`, use Supabase **Transaction pooler** (`:6543`), not the direct `:5432` connection, on Vercel serverless.
+5. Vercel “Needs Attention” on secrets usually means re-paste the value for Production and redeploy.
 
 3. Install dependencies:
 

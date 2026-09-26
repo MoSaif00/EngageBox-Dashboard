@@ -98,95 +98,97 @@ function MyTable({
     });
 
     return (
-        <div className="p-2 mt-5">
+        <div className="p-2 mt-5 min-w-0">
             <div className="h-2" />
-            <table className="w-full">
-                <thead>
-                    {table.getHeaderGroups().map(headerGroup => (
-                        <tr key={headerGroup.id} className="border-b border-slate-300">
-                            {headerGroup.headers.map(header => {
-                                return (
-                                    <th key={header.id} className="text-left bg-gray-50 rounded-t-md p-4" colSpan={header.colSpan}>
-                                        <div
-                                            {...{
-                                                className: header.column.getCanSort()
-                                                    ? 'cursor-pointer select-none'
-                                                    : '',
-                                                onClick: header.column.getToggleSortingHandler(),
-                                            }}
-                                        >
-                                            {flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
-                                            {{
-                                                asc: ' 🔼',
-                                                desc: ' 🔽',
-                                            }[header.column.getIsSorted() as string] ?? null}
-                                            {header.column.getCanFilter() ? (
-                                                <div className="mt-2">
-                                                    <Filter column={header.column} table={table} />
-                                                </div>
-                                            ) : null}
-                                        </div>
-                                    </th>
-                                );
-                            })}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map(row => {
-                        return (
-                            <tr key={row.id}>
-                                {row.getVisibleCells().map(cell => {
+            <div className="overflow-x-auto -mx-2 sm:mx-0">
+                <table className="w-full min-w-[640px]">
+                    <thead>
+                        {table.getHeaderGroups().map(headerGroup => (
+                            <tr key={headerGroup.id} className="border-b border-slate-300">
+                                {headerGroup.headers.map(header => {
                                     return (
-                                        <td key={cell.id} className="p-4 border-b" style={{
-                                            width: cell.column.getSize(),
-                                        }}>
-                                            {flexRender(
-                                                cell.column.columnDef.cell,
-                                                cell.getContext()
-                                            )}
-                                        </td>
+                                        <th key={header.id} className="text-left bg-gray-50 dark:bg-muted rounded-t-md p-3 sm:p-4" colSpan={header.colSpan}>
+                                            <div
+                                                {...{
+                                                    className: header.column.getCanSort()
+                                                        ? 'cursor-pointer select-none'
+                                                        : '',
+                                                    onClick: header.column.getToggleSortingHandler(),
+                                                }}
+                                            >
+                                                {flexRender(
+                                                    header.column.columnDef.header,
+                                                    header.getContext()
+                                                )}
+                                                {{
+                                                    asc: ' 🔼',
+                                                    desc: ' 🔽',
+                                                }[header.column.getIsSorted() as string] ?? null}
+                                                {header.column.getCanFilter() ? (
+                                                    <div className="mt-2">
+                                                        <Filter column={header.column} table={table} />
+                                                    </div>
+                                                ) : null}
+                                            </div>
+                                        </th>
                                     );
                                 })}
                             </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+                        ))}
+                    </thead>
+                    <tbody>
+                        {table.getRowModel().rows.map(row => {
+                            return (
+                                <tr key={row.id}>
+                                    {row.getVisibleCells().map(cell => {
+                                        return (
+                                            <td key={cell.id} className="p-3 sm:p-4 border-b break-words" style={{
+                                                width: cell.column.getSize(),
+                                            }}>
+                                                {flexRender(
+                                                    cell.column.columnDef.cell,
+                                                    cell.getContext()
+                                                )}
+                                            </td>
+                                        );
+                                    })}
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
             <div className="h-2" />
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
                 <button
-                    className="border rounded p-1 bg-gray-50 cursor-pointer"
+                    className="border rounded p-1 bg-gray-50 dark:bg-muted cursor-pointer"
                     onClick={() => table.firstPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
                     <ChevronsLeft />
                 </button>
                 <button
-                    className="border rounded p-1 bg-gray-50 cursor-pointer"
+                    className="border rounded p-1 bg-gray-50 dark:bg-muted cursor-pointer"
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
                     <ChevronLeft />
                 </button>
                 <button
-                    className="border rounded p-1 bg-gray-50 cursor-pointer"
+                    className="border rounded p-1 bg-gray-50 dark:bg-muted cursor-pointer"
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
                     <ChevronRight />
                 </button>
                 <button
-                    className="border rounded p-1 bg-gray-50 cursor-pointer"
+                    className="border rounded p-1 bg-gray-50 dark:bg-muted cursor-pointer"
                     onClick={() => table.lastPage()}
                     disabled={!table.getCanNextPage()}
                 >
                     <ChevronsRight />
                 </button>
-                <span className="flex items-center gap-1">
+                <span className="flex items-center gap-1 text-sm">
                     | Go to page:
                     <input
                         type="number"
@@ -195,7 +197,7 @@ function MyTable({
                             const page = e.target.value ? Number(e.target.value) - 1 : 0;
                             table.setPageIndex(page);
                         }}
-                        className="border p-1 rounded w-16"
+                        className="border p-1 rounded w-16 bg-background"
                     />
                 </span>
                 <select
@@ -203,6 +205,7 @@ function MyTable({
                     onChange={e => {
                         table.setPageSize(Number(e.target.value));
                     }}
+                    className="border rounded p-1 bg-background text-sm"
                 >
                     {[10, 20, 30, 40, 50].map(pageSize => (
                         <option key={pageSize} value={pageSize}>

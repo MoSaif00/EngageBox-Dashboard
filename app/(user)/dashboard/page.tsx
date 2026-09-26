@@ -17,18 +17,20 @@ export default async function Page() {
     const userProjects = await db.select().from(projects).where(eq(projects.userId, userId));
 
     const subscribed = await getSubscription({ userId });
+    const canCreate =
+        subscribed === true || userProjects.length < maxFreeProjects;
+
     return (
         <div>
-            <div className="flex items-center justify-center relative my-8">
-                <h1 className="text-xl font-bold absolute left-1/2 transform -translate-x-1/2">
+            <div className="my-6 flex flex-col gap-4 sm:my-8 sm:flex-row sm:items-center sm:justify-between">
+                <h1 className="text-xl font-bold text-center sm:text-left">
                     Your Projects
                 </h1>
-                {subscribed !== true && userProjects.length >= maxFreeProjects
-                    ? null
-                    : (<div className="absolute right-0">
+                {canCreate ? (
+                    <div className="flex justify-center sm:justify-end">
                         <NewProjectBtn />
-                    </div>)
-                }
+                    </div>
+                ) : null}
             </div>
             <ProjectsList projects={userProjects} subscribed={subscribed} />
         </div>

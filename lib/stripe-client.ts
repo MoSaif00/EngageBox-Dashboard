@@ -4,7 +4,11 @@ let stripePromise: Promise<Stripe | null>;
 
 export const getStripe = () => {
   if (!stripePromise) {
-    stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY || "");
+    const key =
+      process.env.NEXT_PUBLIC_PUBLISHABLE_KEY ||
+      process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ||
+      "";
+    stripePromise = loadStripe(key);
   }
   return stripePromise;
 };

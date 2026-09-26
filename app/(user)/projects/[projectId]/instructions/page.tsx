@@ -13,20 +13,20 @@ const Page = async ({ params }: { params: Params; }) => {
     if (!process.env.WIDGET_URL) return (<div>Missing Widget URL</div>);
 
     return (
-        <div>
+        <div className="min-w-0">
             <div>
                 <Link href={`/projects/${projectId}`} className="flex items-center text-primary mb-5 w-fit">
-                    <ChevronLeft className="h-5 w-5 mr-1" />
-                    <span className="text-lg">Back to project</span>
+                    <ChevronLeft className="h-5 w-5 mr-1 shrink-0" />
+                    <span className="text-base sm:text-lg">Back to project</span>
                 </Link>
             </div>
             <h1 className="text-xl font-bold mb-2">Start Collecting Feedback</h1>
-            <p className="text-lg text-secondary-foreground">Embed the following code in your site</p>
+            <p className="text-base sm:text-lg text-secondary-foreground">Embed the following code in your site</p>
 
-            <div className="bg-muted-foreground p-6 rounded-md mt-6 relative">
-                <code className="text-white">
+            <div className="bg-muted-foreground p-4 sm:p-6 rounded-md mt-6 relative overflow-x-auto">
+                <code className="text-white text-xs sm:text-sm whitespace-pre-wrap break-all block pr-10">
                     {`<my-widget project-id="${projectId}"></my-widget>`}
-                    <br />
+                    {"\n"}
                     {`<script src="${process.env.WIDGET_URL}/widget.umd.js"></script>`}
                 </code>
                 <CopyBtn text={`<my-widget project-id="${projectId}"></my-widget>\n<script src="${process.env.WIDGET_URL}/widget.umd.js"></script>`} />

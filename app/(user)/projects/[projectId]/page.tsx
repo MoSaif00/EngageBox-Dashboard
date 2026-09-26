@@ -28,35 +28,35 @@ const Page = async ({ params }: { params: Params; }) => {
     }
 
     return (
-        <div>
+        <div className="min-w-0">
             <div>
                 <Link href="/dashboard" className="flex items-center text-primary mb-5 w-fit">
-                    <ChevronLeft className="h-5 w-5 mr-1" />
-                    <span className="text-lg">Back to projects</span>
+                    <ChevronLeft className="h-5 w-5 mr-1 shrink-0" />
+                    <span className="text-base sm:text-lg">Back to projects</span>
                 </Link>
             </div>
-            <div className="flex justify-between items-start">
-                <div className="proj-info">
-                    <h1 className="text-3xl font-bold mb-3">{project.name}</h1>
-                    <h2 className="text-primary-background text-xl mb-2">{project.description}</h2>
+            <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-start">
+                <div className="proj-info min-w-0">
+                    <h1 className="text-2xl sm:text-3xl font-bold mb-3 break-words">{project.name}</h1>
+                    <h2 className="text-primary-background text-lg sm:text-xl mb-2 break-words">{project.description}</h2>
                 </div>
-                <div className="flex flex-col">
+                <div className="flex flex-col shrink-0">
                     {project.url ? (
                         <Link
                             href={project.url.startsWith("http") ? project.url : `http://${project.url}`}
                             className="underline text-primary flex items-center"
                         >
-                            <Globe className="h-5 w-5 mr-1" />
-                            <span className="text-lg">Visit site</span>
+                            <Globe className="h-5 w-5 mr-1 shrink-0" />
+                            <span className="text-base sm:text-lg">Visit site</span>
                         </Link>
                     ) : null}
                     <Link href={`/projects/${projectId}/instructions`} className="underline text-primary flex items-center mt-2">
-                        <Code className="h-5 w-5 mr-1" />
-                        <span className="text-lg">Embed Code</span>
+                        <Code className="h-5 w-5 mr-1 shrink-0" />
+                        <span className="text-base sm:text-lg">Embed Code</span>
                     </Link>
                 </div>
             </div>
-            <div>
+            <div className="mt-4 min-w-0 overflow-hidden">
                 <Table data={project.feedbacks} />
             </div>
         </div>
