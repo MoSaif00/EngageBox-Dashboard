@@ -52,9 +52,14 @@ Because `*.vercel.app` cannot use Clerk DNS/CNAME, Clerk uses a **proxy** on you
    - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` = `pk_live_...`
    - `CLERK_SECRET_KEY` = `sk_live_...`
    - `NEXT_PUBLIC_CLERK_PROXY_URL` = `https://engage-box.vercel.app/__clerk`
-3. Deploy this app (middleware proxies `/__clerk/*`)
-4. Back in Clerk Domains, click **Verify** / deploy-and-verify until the domain is verified
-5. Do **not** set `NEXT_PUBLIC_CLERK_PROXY_URL` for local `pk_test_` development
+   - `NEXT_PUBLIC_CLERK_SIGN_IN_URL` = `/sign-in`
+   - `NEXT_PUBLIC_CLERK_SIGN_UP_URL` = `/sign-up`
+   - `NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL` = `/dashboard`
+   - `NEXT_PUBLIC_CLERK_SIGN_UP_FALLBACK_REDIRECT_URL` = `/dashboard`
+3. Deploy this app (middleware proxies `/__clerk/*`, auth lives at `/sign-in` + `/sign-up`)
+4. **Account Portal:** In Clerk → Account Portal, do **not** use `accounts.engage-box.vercel.app` (it cannot work on vercel.app). Prefer **Clerk’s accounts.dev domain**, or rely on in-app `/sign-in` and `/sign-up` pages.
+5. Back in Clerk Domains, click **Verify** until the domain is verified
+6. Do **not** set `NEXT_PUBLIC_CLERK_PROXY_URL` for local `pk_test_` development
 
 For full branded Account Portal later, add a real custom domain you own (not `vercel.app`).
 

@@ -20,12 +20,12 @@ const PageHeader = () => {
                     </Link>
                     <div className="flex items-center shrink-0">
                         <Show when="signed-out">
-                            <SignInButton>
+                            <SignInButton mode="modal" forceRedirectUrl="/dashboard">
                                 <Button variant={'secondary'} size="sm">
                                     Sign In
                                 </Button>
                             </SignInButton>
-                            <SignUpButton>
+                            <SignUpButton mode="modal" forceRedirectUrl="/dashboard">
                                 <Button size="sm" className="ml-2">
                                     Sign Up
                                 </Button>

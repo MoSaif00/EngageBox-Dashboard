@@ -41,7 +41,7 @@ const Hero = () => {
                     </div>
                     <div className="flex justify-center md:justify-start">
                         <Show when="signed-out">
-                            <SignUpButton>
+                            <SignUpButton mode="modal" forceRedirectUrl="/dashboard">
                                 <div className="flex gap-3">
                                     <Button>
                                         <LogIn className="w-4 h-4 mr-2" />
