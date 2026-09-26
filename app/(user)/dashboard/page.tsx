@@ -7,6 +7,27 @@ import ProjectsList from "./projects-list";
 import { getSubscription } from "@/actions/userSubscriptions";
 import { maxFreeProjects } from "@/lib/constants";
 
+function dbErrorMessage(error: unknown) {
+    if (!(error instanceof Error)) return "Unknown database error";
+    const msg = error.message || "";
+    if (/DATABASE_URL is not set/i.test(msg)) {
+        return "DATABASE_URL is missing in Vercel environment variables.";
+    }
+    if (/CONNECT_TIMEOUT|ECONNREFUSED|ENOTFOUND|getaddrinfo/i.test(msg)) {
+        return "Could not reach the database host. Check DATABASE_URL (use the Transaction pooler URI on port 6543).";
+    }
+    if (/password authentication failed|EAUTH|28P01/i.test(msg)) {
+        return "Database password authentication failed. URL-encode special characters in the password (e.g. ! → %21, @ → %40).";
+    }
+    if (/does not exist|42P01/i.test(msg)) {
+        return "Database tables are missing. Run the SQL in supabase-schema.sql in the Supabase SQL Editor.";
+    }
+    if (/Connection|SSL|tls/i.test(msg)) {
+        return "Database connection failed. Verify DATABASE_URL and that the Supabase project is Active/Healthy.";
+    }
+    return `Database error: ${msg.slice(0, 180)}`;
+}
+
 export default async function Page() {
     const { userId } = await auth();
 
@@ -14,9 +35,25 @@ export default async function Page() {
         return null;
     }
 
-    const userProjects = await db.select().from(projects).where(eq(projects.userId, userId));
+    let userProjects;
+    let subscribed: boolean | null | undefined;
 
-    const subscribed = await getSubscription({ userId });
+    try {
+        userProjects = await db
+            .select()
+            .from(projects)
+            .where(eq(projects.userId, userId));
+        subscribed = await getSubscription({ userId });
+    } catch (error) {
+        console.error("[dashboard] database error:", error);
+        return (
+            <div className="mx-auto max-w-lg rounded-md border border-destructive/40 bg-destructive/5 p-6 text-center">
+                <h1 className="mb-2 text-xl font-bold">Could not load projects</h1>
+                <p className="text-muted-foreground text-sm">{dbErrorMessage(error)}</p>
+            </div>
+        );
+    }
+
     const canCreate =
         subscribed === true || userProjects.length < maxFreeProjects;
 
