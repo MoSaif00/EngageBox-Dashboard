@@ -1,0 +1,54 @@
+# Keeps the Supabase free-tier project from pausing due to inactivity.
+# EngageBox project: lvxixxaydaswatvxwyhq (eu-central-1)
+#
+# Required repo secrets:
+#   SUPABASE_URL       — https://lvxixxaydaswatvxwyhq.supabase.co
+#   SUPABASE_ANON_KEY  — Project Settings → API → anon / publishable key
+
+name: Supabase Keep Alive
+
+on:
+  schedule:
+    # Twice weekly: Monday and Thursday at 06:00 UTC
+    - cron: "0 6 * * 1,4"
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    name: Ping EngageBox database
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Query Supabase REST API
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${SUPABASE_URL:-}" ] || [ -z "${SUPABASE_ANON_KEY:-}" ]; then
+            echo "::error::Missing SUPABASE_URL or SUPABASE_ANON_KEY repository secrets."
+            exit 1
+          fi
+
+          # Lightweight select against a real table so PostgREST hits Postgres.
+          # RLS may return []; a 2xx response still counts as project activity.
+          response="$(curl -sS -w "\n%{http_code}" \
+            "${SUPABASE_URL}/rest/v1/projects?select=id&limit=1" \
+            -H "apikey: ${SUPABASE_ANON_KEY}" \
+            -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
+            -H "Accept: application/json")"
+
+          body="$(printf '%s' "$response" | sed '$d')"
+          status="$(printf '%s' "$response" | tail -n1)"
+
+          echo "HTTP status: ${status}"
+          echo "Body: ${body}"
+
+          case "$status" in
+            2??) echo "Keep-alive succeeded." ;;
+            *)
+              echo "::error::Keep-alive failed with HTTP ${status}"
+              exit 1
+              ;;
+          esac
